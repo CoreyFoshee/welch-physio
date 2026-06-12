@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- Static form definition so Netlify Forms detects the "contact" form at deploy time. -->
+<html>
+  <head><title>Forms</title></head>
+  <body>
+    <form name="contact" data-netlify="true" netlify-honeypot="company" hidden>
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <input type="text" name="contact" />
+      <textarea name="message"></textarea>
+      <input type="text" name="company" />
+    </form>
+  </body>
+</html>
