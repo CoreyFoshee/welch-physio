@@ -9,7 +9,9 @@ import { getServices, getServicesPage, getSiteSettings } from "@/sanity/fetch";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Physical Therapy Services in Tulsa | Sports Rehab, Pain Relief & More",
+  title: {
+    absolute: "Physical Therapy Services in Tulsa | Sports Rehab, Pain Relief & More",
+  },
   description:
     "Sports rehab, manual therapy, movement & performance, and wellness memberships — one-on-one care built around your goals.",
   alternates: { canonical: "/services" },

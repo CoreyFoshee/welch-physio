@@ -19,7 +19,9 @@ import {
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Concierge Physical Therapy in Tulsa, OK | Welch Physiotherapy and Wellness",
+  title: {
+    absolute: "Concierge Physical Therapy in Tulsa, OK | Welch Physiotherapy and Wellness",
+  },
   description:
     "One-on-one, doctor-led physical therapy that comes to your home, gym, or workplace in Tulsa. Book a free discovery call — no referral needed.",
   alternates: { canonical: "/" },

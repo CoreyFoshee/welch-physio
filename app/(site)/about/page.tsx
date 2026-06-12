@@ -8,7 +8,7 @@ import { getAboutPage, getSiteSettings } from "@/sanity/fetch";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "About Dr. Kendall Welch, DPT | Welch Physiotherapy",
+  title: { absolute: "About Dr. Kendall Welch, DPT | Welch Physiotherapy" },
   description:
     "Meet Dr. Kendall Welch, Doctor of Physical Therapy and founder of Tulsa's concierge physiotherapy practice for active adults.",
   alternates: { canonical: "/about" },
