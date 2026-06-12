@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-olive: #4e5b42;
+  --color-sage: #8b9e6c;
+  --color-leaf: #c0ca74;
+  --color-mint: #d2e8c5;
+  --color-cream: #ebe1ce;
+  --color-bone: #f6f2e9;
+  --color-ink: #2c3424;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-roboto-condensed), system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 28s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 450;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--color-leaf);
+  color: var(--color-ink);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* Arch-top image mask — signature brand motif */
+.arch-top {
+  border-radius: 50% 50% 0 0 / 35% 35% 0 0;
+}
+.arch-full {
+  border-radius: 50% 50% 1.25rem 1.25rem / 42% 42% 1.25rem 1.25rem;
+}
+
+.display-clamp {
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  line-height: 1.08;
+}
+.display-clamp-md {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.12;
+}
+
+.marquee-track {
+  animation: var(--animate-marquee);
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+a,
+button,
+input,
+textarea,
+summary {
+  outline: none;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
