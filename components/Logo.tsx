@@ -6,14 +6,22 @@ import Link from "next/link";
  * Welch_Horizontal_Logo_Full_Color.eps before launch — this is the only file
  * to touch.
  */
-export function Logo({ light = false }: { light?: boolean }) {
-  const main = light ? "text-bone" : "text-ink";
-  const sub = light ? "text-leaf" : "text-sage";
+export function Logo({
+  light = false,
+  allWhite = false,
+}: {
+  light?: boolean;
+  allWhite?: boolean;
+}) {
+  const onDark = light || allWhite;
+  const main = onDark ? "text-bone" : "text-ink";
+  const sub = allWhite ? "text-bone" : light ? "text-leaf" : "text-sage";
+  const icon = allWhite ? "text-bone" : light ? "text-leaf" : "text-olive";
   return (
     <Link href="/" className="flex items-center gap-2.5" aria-label="Welch Physiotherapy and Wellness — home">
       <svg
         viewBox="0 0 40 40"
-        className={`h-9 w-9 ${light ? "text-leaf" : "text-olive"}`}
+        className={`h-9 w-9 ${icon}`}
         aria-hidden="true"
       >
         <path

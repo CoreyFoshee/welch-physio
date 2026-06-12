@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Logo } from "./Logo";
 import { CtaButton } from "./Button";
@@ -19,8 +20,11 @@ const links = [
 export function Nav({ bookingUrl }: { bookingUrl: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const reduced = useReducedMotion();
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -38,56 +42,13 @@ export function Nav({ bookingUrl }: { bookingUrl: string }) {
     };
   }, [open]);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-bone/85 shadow-[0_2px_24px_rgba(44,52,36,0.08)] backdrop-blur-md"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
-        <Logo />
-        <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors hover:text-sage ${
-                pathname === l.href ? "text-sage underline underline-offset-8" : "text-ink"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <CtaButton href={bookingUrl} className="!px-5 !py-2.5">
-            Book a call
-          </CtaButton>
-        </nav>
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="relative z-[60] flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
-        >
-          <span
-            className={`h-0.5 w-6 rounded transition-all duration-300 ${
-              open ? "translate-y-1 rotate-45 bg-bone" : "bg-ink"
-            }`}
-          />
-          <span
-            className={`h-0.5 w-6 rounded transition-all duration-300 ${
-              open ? "-translate-y-1 -rotate-45 bg-bone" : "bg-ink"
-            }`}
-          />
-        </button>
-      </div>
-
+  const mobileMenu =
+    mounted &&
+    createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 flex flex-col justify-between bg-olive px-6 pb-10 pt-28 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-olive px-6 pb-10 pt-28 lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -123,7 +84,60 @@ export function Nav({ bookingUrl }: { bookingUrl: string }) {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body,
+    );
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={`transition-all duration-300 ${
+          open
+            ? "bg-olive"
+            : scrolled
+              ? "bg-bone/85 shadow-[0_2px_24px_rgba(44,52,36,0.08)] backdrop-blur-md"
+              : "bg-transparent"
+        }`}
+      >
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
+        <Logo allWhite={open} />
+        <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={`text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors hover:text-sage ${
+                pathname === l.href ? "text-sage underline underline-offset-8" : "text-ink"
+              }`}
+            >
+              {l.label}
+            </Link>
+          ))}
+          <CtaButton href={bookingUrl} className="!px-5 !py-2.5">
+            Book a call
+          </CtaButton>
+        </nav>
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-label={open ? "Close menu" : "Open menu"}
+          className="relative z-[60] flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
+        >
+          <span
+            className={`h-0.5 w-6 rounded transition-all duration-300 ${
+              open ? "translate-y-1 rotate-45 bg-bone" : "bg-ink"
+            }`}
+          />
+          <span
+            className={`h-0.5 w-6 rounded transition-all duration-300 ${
+              open ? "-translate-y-1 -rotate-45 bg-bone" : "bg-ink"
+            }`}
+          />
+        </button>
+      </div>
+      </div>
+      {mobileMenu}
     </header>
   );
 }
