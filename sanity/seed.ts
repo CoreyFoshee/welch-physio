@@ -81,8 +81,24 @@ function addArrayKeys<T>(value: T, path = "root"): T {
   return value;
 }
 
+/** Alt text lives on `image.alt` in the schema — not as a top-level `imageAlt` field. */
+function stripImageAlt<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value.map(stripImageAlt) as T;
+  }
+  if (value !== null && typeof value === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+      if (key === "imageAlt") continue;
+      out[key] = stripImageAlt(child);
+    }
+    return out as T;
+  }
+  return value;
+}
+
 function prepareDoc<T extends object>(doc: T): T {
-  return addArrayKeys(stripNullImages(doc));
+  return addArrayKeys(stripImageAlt(stripNullImages(doc)));
 }
 
 async function run() {
