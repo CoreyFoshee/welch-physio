@@ -37,8 +37,12 @@ function RouteConnector({
       className={`origin-left bg-leaf ${
         isHorizontal ? "h-0.5 w-full" : "h-full w-0.5 origin-top"
       }`}
-      initial={reduced ? false : { scaleX: isHorizontal ? 0 : 1, scaleY: isHorizontal ? 1 : 0 }}
-      whileInView={reduced ? false : { scaleX: 1, scaleY: 1 }}
+      initial={
+        reduced
+          ? { scaleX: 1, scaleY: 1 }
+          : { scaleX: isHorizontal ? 0 : 1, scaleY: isHorizontal ? 1 : 0 }
+      }
+      whileInView={{ scaleX: 1, scaleY: 1 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ delay, duration: 0.7, ease: EASE }}
       aria-hidden="true"
