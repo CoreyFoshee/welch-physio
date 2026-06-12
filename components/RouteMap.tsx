@@ -1,19 +1,48 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "./AnimatedSection";
 import type { RouteNode } from "@/lib/types";
 
+const DOT_SIZE = "2.5rem"; // h-10 / w-10
+
 function NodeDot({ light }: { light?: boolean }) {
   return (
     <span
-      className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
+      className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 ${
         light ? "border-leaf bg-olive" : "border-sage bg-bone"
       }`}
       aria-hidden="true"
     >
       <span className={`h-3 w-3 rounded-full ${light ? "bg-leaf" : "bg-sage"}`} />
     </span>
+  );
+}
+
+/** Solid bar that draws on scroll between two dot edges. */
+function RouteConnector({
+  reduced,
+  delay,
+  direction = "horizontal",
+}: {
+  reduced: boolean | null;
+  delay: number;
+  direction?: "horizontal" | "vertical";
+}) {
+  const isHorizontal = direction === "horizontal";
+
+  return (
+    <motion.div
+      className={`origin-left bg-leaf ${
+        isHorizontal ? "h-0.5 w-full" : "h-full w-0.5 origin-top"
+      }`}
+      initial={reduced ? false : { scaleX: isHorizontal ? 0 : 1, scaleY: isHorizontal ? 1 : 0 }}
+      whileInView={reduced ? false : { scaleX: 1, scaleY: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay, duration: 0.7, ease: EASE }}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -55,56 +84,73 @@ export function MiniRoute({ labels }: { labels: string[] }) {
   );
 }
 
-/** Full differentiator route: dashed path across olive band with three nodes. */
+/** Full differentiator route: solid segments connecting Home → Gym → Workplace. */
 export function RouteMap({ nodes }: { nodes: RouteNode[] }) {
   const reduced = useReducedMotion();
+  const segmentDelay = (i: number) => 0.2 + i * 0.65;
+  const dotDelay = (i: number) => i * 0.65;
+
   return (
-    <div className="relative">
-      {/* Desktop: horizontal dotted path behind the three nodes */}
-      <svg
-        viewBox="0 0 1000 120"
-        className="absolute left-0 top-5 hidden w-full md:block"
-        aria-hidden="true"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M40 80 C 200 10, 360 100, 500 55 S 820 20, 960 70"
-          fill="none"
-          stroke="#C0CA74"
-          strokeWidth="2.5"
-          strokeDasharray="1 12"
-          strokeLinecap="round"
-          initial={reduced ? undefined : { pathLength: 0 }}
-          whileInView={reduced ? undefined : { pathLength: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1.8, ease: EASE }}
-        />
-      </svg>
-      {/* Mobile: vertical dotted line */}
-      <div
-        className="absolute bottom-4 left-5 top-4 border-l-2 border-dashed border-leaf/50 md:hidden"
-        aria-hidden="true"
-      />
-      <ol className="relative grid gap-10 md:grid-cols-3 md:gap-8">
-        {nodes.map((node, i) => (
+    <ol className="relative mx-auto grid max-w-4xl gap-0 overflow-visible md:grid-cols-3 md:gap-8">
+      {nodes.map((node, i) => (
+        <Fragment key={node.label}>
+          {i > 0 && (
+            <li
+              className="flex h-6 justify-start pl-5 md:hidden"
+              aria-hidden="true"
+            >
+              <RouteConnector
+                reduced={reduced}
+                delay={segmentDelay(i - 1)}
+                direction="vertical"
+              />
+            </li>
+          )}
+
           <motion.li
-            key={node.label}
-            className="flex items-start gap-4 md:flex-col md:items-center md:text-center"
+            className="relative flex items-start gap-4 overflow-visible md:flex-col md:items-center md:text-center"
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ delay: 0.4 + i * 0.3, duration: 0.5, ease: EASE }}
+            transition={{ delay: dotDelay(i), duration: 0.5, ease: EASE }}
           >
-            <NodeDot light />
-            <div className="md:mt-4">
+            {/* Desktop: edge-to-edge from this dot's right rim to the next dot's left rim */}
+            {i < nodes.length - 1 && (
+              <div
+                className="pointer-events-none absolute top-5 z-0 hidden h-0.5 -translate-y-1/2 md:block"
+                style={{
+                  left: `calc(50% + ${DOT_SIZE} / 2)`,
+                  width: `calc(100% + 2rem - ${DOT_SIZE})`,
+                }}
+                aria-hidden="true"
+              >
+                <RouteConnector
+                  reduced={reduced}
+                  delay={segmentDelay(i)}
+                  direction="horizontal"
+                />
+              </div>
+            )}
+
+            <motion.div
+              className="md:mb-4"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: dotDelay(i), duration: 0.4, ease: EASE }}
+            >
+              <NodeDot light />
+            </motion.div>
+
+            <div>
               <h3 className="eyebrow !font-sans text-leaf">{node.label}</h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-cream/90">
+              <p className="mt-2 max-w-xs text-sm leading-relaxed text-cream/90 md:mx-auto">
                 {node.body}
               </p>
             </div>
           </motion.li>
-        ))}
-      </ol>
-    </div>
+        </Fragment>
+      ))}
+    </ol>
   );
 }
