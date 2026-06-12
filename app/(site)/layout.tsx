@@ -27,7 +27,7 @@ export default async function SiteLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
       />
-      <Nav bookingUrl={settings.discoveryCallUrl} />
+      <Nav bookingUrl={settings.discoveryCallUrl} chrome={settings.chrome} />
       <main className="flex-1">{children}</main>
       <Footer settings={settings} />
       <StickyMobileCta

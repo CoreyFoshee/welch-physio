@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/metadata";
+import { defaultHomePage } from "@/lib/defaultContent";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
 import { ArchImage } from "@/components/ArchImage";
@@ -18,14 +20,15 @@ import {
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Concierge Physical Therapy in Tulsa, OK | Welch Physiotherapy and Wellness",
-  },
-  description:
-    "One-on-one, doctor-led physical therapy that comes to your home, gym, or workplace in Tulsa. Book a free discovery call — no referral needed.",
-  alternates: { canonical: "/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const home = await getHomePage();
+  return buildPageMetadata(home, {
+    title: defaultHomePage.seoTitle!,
+    description: defaultHomePage.seoDescription!,
+    canonical: "/",
+    absoluteTitle: true,
+  });
+}
 
 export default async function HomePage() {
   const [home, services, testimonials, settings] = await Promise.all([
@@ -77,7 +80,7 @@ export default async function HomePage() {
               image={home.guide.image}
               alt={home.guide.imageAlt}
               shape="full"
-              label="Dr. Kendall Welch, DPT"
+              label={home.guide.imageCaption}
               className="mx-auto aspect-[4/5] w-full max-w-sm"
             />
           </AnimatedItem>
@@ -249,7 +252,11 @@ export default async function HomePage() {
               <h3 className="text-xl text-ink">{home.closing.contactHeading}</h3>
               <p className="mt-2 text-sm text-ink/70">{home.closing.contactSubline}</p>
               <div className="mt-6">
-                <ContactForm variant="mini" button={home.closing.button} />
+                <ContactForm
+                  variant="mini"
+                  button={home.closing.button}
+                  formCopy={settings.chrome.contactForm}
+                />
               </div>
             </div>
           </AnimatedItem>

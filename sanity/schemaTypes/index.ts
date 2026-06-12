@@ -56,6 +56,45 @@ const siteSettings = defineType({
     }),
     str("announcement", "Announcement bar (optional)"),
     defineField({
+      name: "chrome",
+      title: "Site chrome (nav, footer, forms)",
+      type: "object",
+      fields: [
+        str("logoWordmark", "Logo wordmark"),
+        str("logoTagline", "Logo tagline"),
+        str("navCta", "Nav / menu CTA label"),
+        defineField({
+          name: "navLinks",
+          type: "array",
+          of: [{ type: "object", fields: [str("label"), str("href")] }],
+        }),
+        str("footerPagesHeading"),
+        str("footerContactHeading"),
+        str("footerLegalHeading"),
+        str("patientPortalLabel"),
+        str("copyrightLocation", "Copyright location line"),
+        defineField({
+          name: "legalLinks",
+          type: "array",
+          of: [{ type: "object", fields: [str("label"), str("href")] }],
+        }),
+        defineField({
+          name: "contactForm",
+          type: "object",
+          fields: [
+            str("namePlaceholder"),
+            str("phonePlaceholder"),
+            str("emailPlaceholder"),
+            str("messagePlaceholder"),
+            str("miniContactPlaceholder"),
+            str("sendingLabel"),
+            str("honeypotLabel"),
+          ],
+        }),
+        str("faqContactOrCall", "FAQ contact prefix"),
+      ],
+    }),
+    defineField({
       name: "footer",
       type: "object",
       fields: [
@@ -121,6 +160,7 @@ const homePage = defineType({
         txt("body"),
         strList("credentials"),
         img("image"),
+        str("imageCaption", "Image overlay caption"),
         str("cta"),
       ],
     }),
@@ -287,6 +327,7 @@ const aboutPage = defineType({
       of: [{ type: "text", rows: 4 }],
     }),
     img("image", "Portrait"),
+    str("imageCaption", "Image overlay caption"),
     defineField({
       name: "beliefs",
       type: "object",
@@ -394,6 +435,13 @@ const policy = defineType({
   ],
 });
 
+const policiesPage = defineType({
+  name: "policiesPage",
+  title: "Policies page",
+  type: "document",
+  fields: [str("eyebrow"), str("heading"), ...seoFields],
+});
+
 export const schemaTypes: SchemaTypeDefinition[] = [
   siteSettings,
   homePage,
@@ -401,6 +449,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   expectPage,
   aboutPage,
   faqPage,
+  policiesPage,
   service,
   expectStep,
   testimonial,

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { EmailAddress, MailerooClient } from "maileroo-sdk";
 
 const TO_EMAIL = "kwelchphysio@gmail.com";
 
@@ -27,35 +27,39 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.MAILEROO_API_KEY;
   if (!apiKey) {
-    // Netlify Forms still captures the submission; report failure here so the
-    // client only shows success if at least one channel worked.
-    console.warn("RESEND_API_KEY not set — skipping email relay.");
+    console.warn("MAILEROO_API_KEY not set — skipping email relay.");
     return NextResponse.json({ ok: false, error: "Email relay not configured" }, { status: 503 });
   }
 
+  const fromEmail =
+    process.env.MAILEROO_FROM_EMAIL ?? "hello@welchphysio.com";
+  const fromName = process.env.MAILEROO_FROM_NAME ?? "Welch Physio Website";
+
+  const text = [
+    `Name: ${name}`,
+    phone && `Phone: ${phone}`,
+    email && `Email: ${email}`,
+    contact && `Phone or email: ${contact}`,
+    message && `\nMessage:\n${message}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
   try {
-    const resend = new Resend(apiKey);
-    await resend.emails.send({
-      // TODO: switch to a verified sender domain (e.g. hello@welchphysio.com) in Resend
-      from: "Welch Physio Website <onboarding@resend.dev>",
-      to: TO_EMAIL,
-      replyTo: email || undefined,
+    const client = new MailerooClient(apiKey);
+    await client.sendBasicEmail({
+      from: new EmailAddress(fromEmail, fromName),
+      to: [new EmailAddress(TO_EMAIL, "Dr. Kendall Welch")],
+      reply_to: email ? new EmailAddress(email, name) : undefined,
       subject: `New website message from ${name}`,
-      text: [
-        `Name: ${name}`,
-        phone && `Phone: ${phone}`,
-        email && `Email: ${email}`,
-        contact && `Phone or email: ${contact}`,
-        message && `\nMessage:\n${message}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
+      plain: text,
+      html: text.replace(/\n/g, "<br>"),
     });
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Resend send failed:", err);
+    console.error("Maileroo send failed:", err);
     return NextResponse.json({ ok: false, error: "Send failed" }, { status: 502 });
   }
 }

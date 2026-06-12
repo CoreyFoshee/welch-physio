@@ -1,17 +1,21 @@
 import Link from "next/link";
 
 /**
- * Placeholder logo matching the mockups: arch + pulse-line mark, "WELCH" in
- * display type, letterspaced subline. Swap the mark for the converted SVG of
+ * Placeholder logo matching the mockups: arch + pulse-line mark, display wordmark,
+ * letterspaced subline. Swap the mark for the converted SVG of
  * Welch_Horizontal_Logo_Full_Color.eps before launch — this is the only file
  * to touch.
  */
 export function Logo({
   light = false,
   allWhite = false,
+  wordmark = "WELCH",
+  tagline = "Physiotherapy & Wellness",
 }: {
   light?: boolean;
   allWhite?: boolean;
+  wordmark?: string;
+  tagline?: string;
 }) {
   const onDark = light || allWhite;
   const main = onDark ? "text-bone" : "text-ink";
@@ -43,12 +47,12 @@ export function Logo({
         <span
           className={`font-display text-xl font-semibold tracking-[0.08em] ${main}`}
         >
-          WELCH
+          {wordmark}
         </span>
         <span
           className={`mt-1 text-[8.5px] font-semibold uppercase tracking-[0.22em] ${sub}`}
         >
-          Physiotherapy &amp; Wellness
+          {tagline}
         </span>
       </span>
     </Link>

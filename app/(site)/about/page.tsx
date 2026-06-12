@@ -3,16 +3,21 @@ import { ArchImage } from "@/components/ArchImage";
 import { CtaButton } from "@/components/Button";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { Check } from "@/components/icons";
+import { defaultAboutPage } from "@/lib/defaultContent";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getAboutPage, getSiteSettings } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: { absolute: "About Dr. Kendall Welch, DPT | Welch Physiotherapy" },
-  description:
-    "Meet Dr. Kendall Welch, Doctor of Physical Therapy and founder of Tulsa's concierge physiotherapy practice for active adults.",
-  alternates: { canonical: "/about" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getAboutPage();
+  return buildPageMetadata(page, {
+    title: defaultAboutPage.seoTitle!,
+    description: defaultAboutPage.seoDescription!,
+    canonical: "/about",
+    absoluteTitle: true,
+  });
+}
 
 export default async function AboutPage() {
   const [page, settings] = await Promise.all([getAboutPage(), getSiteSettings()]);
@@ -28,7 +33,7 @@ export default async function AboutPage() {
               image={page.image}
               alt={page.imageAlt}
               shape="full"
-              label="Dr. Welch portrait, natural light"
+              label={page.imageCaption}
               priority
               className="mx-auto aspect-[4/5] w-full max-w-md"
               sizes="(max-width: 1024px) 100vw, 38vw"

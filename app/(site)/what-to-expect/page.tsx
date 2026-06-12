@@ -3,16 +3,20 @@ import { ArchImage } from "@/components/ArchImage";
 import { CtaButton } from "@/components/Button";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
+import { defaultExpectPage } from "@/lib/defaultContent";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getExpectPage, getExpectSteps, getSiteSettings } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "What to Expect",
-  description:
-    "From a free discovery call to long-term wellness: exactly how concierge physical therapy with Dr. Welch works, step by step.",
-  alternates: { canonical: "/what-to-expect" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getExpectPage();
+  return buildPageMetadata(page, {
+    title: defaultExpectPage.seoTitle!,
+    description: defaultExpectPage.seoDescription!,
+    canonical: "/what-to-expect",
+  });
+}
 
 export default async function WhatToExpectPage() {
   const [page, steps, settings] = await Promise.all([

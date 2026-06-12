@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import type { ContactFormCopy } from "@/lib/types";
+import { defaultSiteSettings } from "@/lib/defaultContent";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -12,12 +14,14 @@ export function ContactForm({
   button = "Send message",
   successMessage = "Got it — I'll be in touch shortly, usually the same day.",
   errorMessage = "Something went wrong sending your message. Call or text (903) 918-2611 instead.",
+  formCopy = defaultSiteSettings.chrome.contactForm,
 }: {
   /** "full" = olive card (FAQ page); "mini" = light card (home closing strip) */
   variant?: "full" | "mini";
   button?: string;
   successMessage?: string;
   errorMessage?: string;
+  formCopy?: ContactFormCopy;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const light = variant === "full";
@@ -52,7 +56,7 @@ export function ContactForm({
         ).toString(),
       }).then((r) => r.ok);
 
-      // 2. Serverless email relay (Resend)
+      // 2. Serverless email relay (Maileroo)
       const api = fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -87,23 +91,23 @@ export function ContactForm({
       <input type="hidden" name="form-name" value="contact" />
       <p className="hidden" aria-hidden="true">
         <label>
-          Don&apos;t fill this out: <input name="company" tabIndex={-1} autoComplete="off" />
+          {formCopy.honeypotLabel} <input name="company" tabIndex={-1} autoComplete="off" />
         </label>
       </p>
 
       {variant === "full" ? (
         <>
           <label className="sr-only" htmlFor="cf-name">Name</label>
-          <input id="cf-name" name="name" placeholder="Name" required autoComplete="name" className={inputCls} />
+          <input id="cf-name" name="name" placeholder={formCopy.namePlaceholder} required autoComplete="name" className={inputCls} />
           <label className="sr-only" htmlFor="cf-phone">Phone</label>
-          <input id="cf-phone" name="phone" type="tel" placeholder="Phone" autoComplete="tel" className={inputCls} />
+          <input id="cf-phone" name="phone" type="tel" placeholder={formCopy.phonePlaceholder} autoComplete="tel" className={inputCls} />
           <label className="sr-only" htmlFor="cf-email">Email</label>
-          <input id="cf-email" name="email" type="email" placeholder="Email" autoComplete="email" className={inputCls} />
+          <input id="cf-email" name="email" type="email" placeholder={formCopy.emailPlaceholder} autoComplete="email" className={inputCls} />
           <label className="sr-only" htmlFor="cf-message">What&apos;s going on? (optional)</label>
           <textarea
             id="cf-message"
             name="message"
-            placeholder="What's going on? (optional)"
+            placeholder={formCopy.messagePlaceholder}
             rows={4}
             className={inputCls}
           />
@@ -111,9 +115,9 @@ export function ContactForm({
       ) : (
         <div className="flex flex-col gap-3 sm:flex-row">
           <label className="sr-only" htmlFor="cf-mini-name">Name</label>
-          <input id="cf-mini-name" name="name" placeholder="Name" required autoComplete="name" className={inputCls} />
+          <input id="cf-mini-name" name="name" placeholder={formCopy.namePlaceholder} required autoComplete="name" className={inputCls} />
           <label className="sr-only" htmlFor="cf-mini-contact">Phone or email</label>
-          <input id="cf-mini-contact" name="contact" placeholder="Phone or email" required className={inputCls} />
+          <input id="cf-mini-contact" name="contact" placeholder={formCopy.miniContactPlaceholder} required className={inputCls} />
         </div>
       )}
 
@@ -124,7 +128,7 @@ export function ContactForm({
           light ? "bg-leaf text-ink hover:bg-mint" : "bg-olive text-bone hover:bg-ink"
         }`}
       >
-        {status === "sending" ? "Sending…" : button}
+        {status === "sending" ? formCopy.sendingLabel : button}
         <span aria-hidden="true" className="transition-transform duration-300 motion-safe:group-hover:translate-x-1">
           →
         </span>

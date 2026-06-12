@@ -3,21 +3,8 @@ import { Logo } from "./Logo";
 import { CtaButton } from "./Button";
 import type { SiteSettings } from "@/lib/types";
 
-const pageLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/what-to-expect", label: "What to Expect" },
-  { href: "/faq", label: "FAQ" },
-];
-
-const legalLinks = [
-  { href: "/policies#privacy", label: "Privacy policy" },
-  { href: "/policies#cancellation", label: "Cancellation policy" },
-  { href: "/policies#good-faith-estimate", label: "Good Faith Estimate" },
-];
-
 export function Footer({ settings }: { settings: SiteSettings }) {
+  const { chrome } = settings;
   const year = new Date().getFullYear();
   return (
     <footer className="bg-olive text-cream">
@@ -39,9 +26,9 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           </div>
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
             <nav aria-label="Footer pages">
-              <h3 className="eyebrow !font-sans text-leaf">Pages</h3>
+              <h3 className="eyebrow !font-sans text-leaf">{chrome.footerPagesHeading}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
-                {pageLinks.map((l) => (
+                {chrome.navLinks.map((l) => (
                   <li key={l.href}>
                     <Link href={l.href} className="text-cream/85 hover:text-bone">
                       {l.label}
@@ -51,7 +38,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               </ul>
             </nav>
             <div>
-              <h3 className="eyebrow !font-sans text-leaf">Contact</h3>
+              <h3 className="eyebrow !font-sans text-leaf">{chrome.footerContactHeading}</h3>
               <ul className="mt-4 space-y-2.5 text-sm text-cream/85">
                 <li>
                   <a href={`tel:+1${settings.phone.replace(/\D/g, "")}`} className="hover:text-bone">
@@ -68,9 +55,9 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               </ul>
             </div>
             <nav aria-label="Legal">
-              <h3 className="eyebrow !font-sans text-leaf">Legal</h3>
+              <h3 className="eyebrow !font-sans text-leaf">{chrome.footerLegalHeading}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
-                {legalLinks.map((l) => (
+                {chrome.legalLinks.map((l) => (
                   <li key={l.href}>
                     <Link href={l.href} className="text-cream/85 hover:text-bone">
                       {l.label}
@@ -85,7 +72,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
                       rel="noopener noreferrer"
                       className="text-cream/85 hover:text-bone"
                     >
-                      Patient portal
+                      {chrome.patientPortalLabel}
                     </a>
                   </li>
                 )}
@@ -94,9 +81,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           </div>
         </div>
         <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-cream/15 pt-8 sm:flex-row sm:items-center">
-          <Logo light />
+          <Logo
+            light
+            wordmark={chrome.logoWordmark}
+            tagline={chrome.logoTagline}
+          />
           <p className="text-xs text-cream/60">
-            © {year} {settings.businessName} PLLC · Tulsa, OK
+            © {year} {settings.businessName} PLLC · {chrome.copyrightLocation}
           </p>
         </div>
       </div>

@@ -1,3 +1,8 @@
+import { config } from "dotenv";
+
+config({ path: ".env.local" });
+config({ path: ".env" });
+
 /**
  * Seed the Sanity dataset with the canonical site copy.
  *
@@ -17,6 +22,7 @@ import {
   defaultFaqs,
   defaultHomePage,
   defaultPolicies,
+  defaultPoliciesPage,
   defaultServices,
   defaultServicesPage,
   defaultSiteSettings,
@@ -59,6 +65,7 @@ async function run() {
     { id: "expectPage", type: "expectPage", doc: defaultExpectPage },
     { id: "aboutPage", type: "aboutPage", doc: defaultAboutPage },
     { id: "faqPage", type: "faqPage", doc: defaultFaqPage },
+    { id: "policiesPage", type: "policiesPage", doc: defaultPoliciesPage },
   ];
 
   for (const s of singletons) {

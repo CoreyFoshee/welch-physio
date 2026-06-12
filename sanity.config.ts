@@ -12,6 +12,7 @@ const singletons = [
   { type: "expectPage", title: "What to Expect page" },
   { type: "aboutPage", title: "About page" },
   { type: "faqPage", title: "FAQ page" },
+  { type: "policiesPage", title: "Policies page" },
 ];
 
 export default defineConfig({

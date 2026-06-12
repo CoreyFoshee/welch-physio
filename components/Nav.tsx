@@ -8,16 +8,16 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Logo } from "./Logo";
 import { CtaButton } from "./Button";
 import { EASE } from "./AnimatedSection";
+import type { SiteChrome } from "@/lib/types";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/what-to-expect", label: "What to Expect" },
-  { href: "/faq", label: "FAQ" },
-];
-
-export function Nav({ bookingUrl }: { bookingUrl: string }) {
+export function Nav({
+  bookingUrl,
+  chrome,
+}: {
+  bookingUrl: string;
+  chrome: SiteChrome;
+}) {
+  const links = chrome.navLinks;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -100,7 +100,11 @@ export function Nav({ bookingUrl }: { bookingUrl: string }) {
         }`}
       >
       <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 md:px-8">
-        <Logo allWhite={open} />
+        <Logo
+          allWhite={open}
+          wordmark={chrome.logoWordmark}
+          tagline={chrome.logoTagline}
+        />
         <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
           {links.map((l) => (
             <Link
@@ -114,7 +118,7 @@ export function Nav({ bookingUrl }: { bookingUrl: string }) {
             </Link>
           ))}
           <CtaButton href={bookingUrl} className="!px-5 !py-2.5">
-            Book a call
+            {chrome.navCta}
           </CtaButton>
         </nav>
         <button

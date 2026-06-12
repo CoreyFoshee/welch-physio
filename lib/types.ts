@@ -3,6 +3,36 @@ export type SanityImageRef = {
   alt?: string;
 } | null;
 
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+export interface ContactFormCopy {
+  namePlaceholder: string;
+  phonePlaceholder: string;
+  emailPlaceholder: string;
+  messagePlaceholder: string;
+  miniContactPlaceholder: string;
+  sendingLabel: string;
+  honeypotLabel: string;
+}
+
+export interface SiteChrome {
+  logoWordmark: string;
+  logoTagline: string;
+  navCta: string;
+  navLinks: NavLink[];
+  footerPagesHeading: string;
+  footerContactHeading: string;
+  footerLegalHeading: string;
+  patientPortalLabel: string;
+  copyrightLocation: string;
+  legalLinks: NavLink[];
+  contactForm: ContactFormCopy;
+  faqContactOrCall: string;
+}
+
 export interface SiteSettings {
   businessName: string;
   tagline: string;
@@ -16,6 +46,7 @@ export interface SiteSettings {
   questionnaireUrl: string;
   socialLinks: { label: string; url: string }[];
   announcement?: string;
+  chrome: SiteChrome;
   footer: {
     ctaHeadlinePlain: string;
     ctaHeadlineAccent: string;
@@ -23,6 +54,11 @@ export interface SiteSettings {
     button: string;
   };
   stickyMobileBar: string;
+}
+
+export interface PageSeoFields {
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface ProblemCard {
@@ -41,7 +77,7 @@ export interface PlanStep {
   body: string;
 }
 
-export interface HomePage {
+export interface HomePage extends PageSeoFields {
   hero: {
     eyebrow: string;
     headlinePlain: string;
@@ -71,6 +107,7 @@ export interface HomePage {
     credentials: string[];
     image: SanityImageRef;
     imageAlt: string;
+    imageCaption: string;
     cta: string;
   };
   servicesIntro: {
@@ -119,7 +156,7 @@ export interface Service {
   featured: boolean;
 }
 
-export interface ServicesPage {
+export interface ServicesPage extends PageSeoFields {
   eyebrow: string;
   headingPlain: string;
   headingAccent: string;
@@ -138,7 +175,7 @@ export interface ExpectStep {
   order: number;
 }
 
-export interface ExpectPage {
+export interface ExpectPage extends PageSeoFields {
   eyebrow: string;
   heading: string;
   intro: string;
@@ -151,13 +188,14 @@ export interface ExpectPage {
   closingCta: string;
 }
 
-export interface AboutPage {
+export interface AboutPage extends PageSeoFields {
   eyebrow: string;
   headingPlain: string;
   headingAccent: string;
   body: string[];
   image: SanityImageRef;
   imageAlt: string;
+  imageCaption: string;
   beliefs: { eyebrow: string; cards: { title: string; body: string }[] };
   credentials: { eyebrow: string; heading: string; items: string[] };
   offClock: { heading: string; body: string; cta: string };
@@ -177,7 +215,7 @@ export interface Faq {
   order: number;
 }
 
-export interface FaqPage {
+export interface FaqPage extends PageSeoFields {
   eyebrow: string;
   heading: string;
   contact: {
@@ -197,4 +235,9 @@ export interface Policy {
   title: string;
   slug: string;
   body: string[];
+}
+
+export interface PoliciesPage extends PageSeoFields {
+  eyebrow: string;
+  heading: string;
 }

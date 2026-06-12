@@ -3,16 +3,20 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/Button";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
+import { defaultFaqPage } from "@/lib/defaultContent";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getFaqPage, getFaqs, getSiteSettings } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "FAQ & Contact",
-  description:
-    "Answers on referrals, insurance, pricing, locations, and policies — plus a quick way to message Dr. Welch directly.",
-  alternates: { canonical: "/faq" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getFaqPage();
+  return buildPageMetadata(page, {
+    title: defaultFaqPage.seoTitle!,
+    description: defaultFaqPage.seoDescription!,
+    canonical: "/faq",
+  });
+}
 
 export default async function FaqPage() {
   const [page, faqs, settings] = await Promise.all([
@@ -71,10 +75,11 @@ export default async function FaqPage() {
                     button={page.contact.button}
                     successMessage={page.contact.success}
                     errorMessage={page.contact.error}
+                    formCopy={settings.chrome.contactForm}
                   />
                 </div>
                 <p className="mt-6 border-t border-cream/15 pt-5 text-sm text-cream/80">
-                  Or call/text{" "}
+                  {settings.chrome.faqContactOrCall}{" "}
                   <a
                     href={`tel:+1${settings.phone.replace(/\D/g, "")}`}
                     className="font-semibold text-leaf hover:text-mint"

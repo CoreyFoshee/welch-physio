@@ -8,6 +8,7 @@ import {
   defaultFaqs,
   defaultHomePage,
   defaultPolicies,
+  defaultPoliciesPage,
   defaultServices,
   defaultServicesPage,
   defaultSiteSettings,
@@ -20,6 +21,7 @@ import type {
   Faq,
   FaqPage,
   HomePage,
+  PoliciesPage,
   Policy,
   Service,
   ServicesPage,
@@ -131,3 +133,6 @@ export const getPolicies = () =>
     `*[_type == "policy"] { title, "slug": slug.current, body }`,
     defaultPolicies,
   );
+
+export const getPoliciesPage = () =>
+  fetchDoc<PoliciesPage>(`*[_id == "policiesPage"][0]`, defaultPoliciesPage);

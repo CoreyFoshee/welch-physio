@@ -4,18 +4,21 @@ import { CtaButton } from "@/components/Button";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { Check } from "@/components/icons";
+import { defaultServicesPage } from "@/lib/defaultContent";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getServices, getServicesPage, getSiteSettings } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Physical Therapy Services in Tulsa | Sports Rehab, Pain Relief & More",
-  },
-  description:
-    "Sports rehab, manual therapy, movement & performance, and wellness memberships — one-on-one care built around your goals.",
-  alternates: { canonical: "/services" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getServicesPage();
+  return buildPageMetadata(page, {
+    title: defaultServicesPage.seoTitle!,
+    description: defaultServicesPage.seoDescription!,
+    canonical: "/services",
+    absoluteTitle: true,
+  });
+}
 
 export default async function ServicesPage() {
   const [page, services, settings] = await Promise.all([

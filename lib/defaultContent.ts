@@ -5,12 +5,28 @@ import type {
   Faq,
   FaqPage,
   HomePage,
+  NavLink,
+  PoliciesPage,
   Policy,
   Service,
   ServicesPage,
   SiteSettings,
   Testimonial,
 } from "./types";
+
+const defaultNavLinks: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "What to Expect", href: "/what-to-expect" },
+  { label: "FAQ", href: "/faq" },
+];
+
+const defaultLegalLinks: NavLink[] = [
+  { label: "Privacy policy", href: "/policies#privacy" },
+  { label: "Cancellation policy", href: "/policies#cancellation" },
+  { label: "Good Faith Estimate", href: "/policies#good-faith-estimate" },
+];
 
 /**
  * Canonical site copy (from WEBSITE-COPY.md). Used as:
@@ -34,6 +50,28 @@ export const defaultSiteSettings: SiteSettings = {
   // TODO: replace with intake questionnaire URL when client provides it
   questionnaireUrl: "#",
   socialLinks: [],
+  chrome: {
+    logoWordmark: "WELCH",
+    logoTagline: "Physiotherapy & Wellness",
+    navCta: "Book a call",
+    navLinks: defaultNavLinks,
+    footerPagesHeading: "Pages",
+    footerContactHeading: "Contact",
+    footerLegalHeading: "Legal",
+    patientPortalLabel: "Patient portal",
+    copyrightLocation: "Tulsa, OK",
+    legalLinks: defaultLegalLinks,
+    contactForm: {
+      namePlaceholder: "Name",
+      phonePlaceholder: "Phone",
+      emailPlaceholder: "Email",
+      messagePlaceholder: "What's going on? (optional)",
+      miniContactPlaceholder: "Phone or email",
+      sendingLabel: "Sending…",
+      honeypotLabel: "Don't fill this out:",
+    },
+    faqContactOrCall: "Or call/text",
+  },
   footer: {
     ctaHeadlinePlain: "Ready to move",
     ctaHeadlineAccent: "without pain again?",
@@ -101,6 +139,7 @@ export const defaultHomePage: HomePage = {
     ],
     image: null,
     imageAlt: "Portrait of Dr. Kendall Welch, DPT",
+    imageCaption: "Dr. Kendall Welch, DPT",
     cta: "More about my approach",
   },
   servicesIntro: {
@@ -160,6 +199,9 @@ export const defaultHomePage: HomePage = {
     contactSubline: "Fill this out and I'll text or email you back — usually same day.",
     button: "Send message",
   },
+  seoTitle: "Concierge Physical Therapy in Tulsa, OK | Welch Physiotherapy and Wellness",
+  seoDescription:
+    "One-on-one, doctor-led physical therapy that comes to your home, gym, or workplace in Tulsa. Book a free discovery call — no referral needed.",
 };
 
 export const defaultServices: Service[] = [
@@ -249,6 +291,9 @@ export const defaultServicesPage: ServicesPage = {
     body: "No referrals needed. Superbills provided for HSA/FSA and out-of-network reimbursement. Exact rates and packages are covered on your free discovery call.",
     cta: "Ask about pricing",
   },
+  seoTitle: "Physical Therapy Services in Tulsa | Sports Rehab, Pain Relief & More",
+  seoDescription:
+    "Sports rehab, manual therapy, movement & performance, and wellness memberships — one-on-one care built around your goals.",
 };
 
 export const defaultExpectSteps: ExpectStep[] = [
@@ -315,6 +360,9 @@ export const defaultExpectPage: ExpectPage = {
   },
   closingHeading: "Still wondering if this is right for you?",
   closingCta: "Book a free discovery call",
+  seoTitle: "What to Expect",
+  seoDescription:
+    "From a free discovery call to long-term wellness: exactly how concierge physical therapy with Dr. Welch works, step by step.",
 };
 
 export const defaultAboutPage: AboutPage = {
@@ -328,6 +376,7 @@ export const defaultAboutPage: AboutPage = {
   ],
   image: null,
   imageAlt: "Portrait of Dr. Kendall Welch in natural light",
+  imageCaption: "Dr. Welch portrait, natural light",
   beliefs: {
     eyebrow: "What I believe",
     cards: [
@@ -367,6 +416,9 @@ export const defaultAboutPage: AboutPage = {
     body: "When I'm not treating, you'll find me training, exploring Tulsa's trails, and testing every coffee shop with outlet seating. I practice what I prescribe — movement, daily.",
     cta: "Work with me",
   },
+  seoTitle: "About Dr. Kendall Welch, DPT | Welch Physiotherapy",
+  seoDescription:
+    "Meet Dr. Kendall Welch, Doctor of Physical Therapy and founder of Tulsa's concierge physiotherapy practice for active adults.",
 };
 
 export const defaultTestimonials: Testimonial[] = [
@@ -462,6 +514,17 @@ export const defaultFaqPage: FaqPage = {
   closingHeading: "Didn't find your answer?",
   closingSubline: "Ask me directly on a free 15-minute discovery call.",
   closingCta: "Book a free discovery call",
+  seoTitle: "FAQ & Contact",
+  seoDescription:
+    "Answers on referrals, insurance, pricing, locations, and policies — plus a quick way to message Dr. Welch directly.",
+};
+
+export const defaultPoliciesPage: PoliciesPage = {
+  eyebrow: "Legal",
+  heading: "Policies",
+  seoTitle: "Policies",
+  seoDescription:
+    "Cancellation policy, payment details, Good Faith Estimate rights, and privacy practices.",
 };
 
 export const defaultPolicies: Policy[] = [

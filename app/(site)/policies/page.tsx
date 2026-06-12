@@ -1,28 +1,32 @@
 import type { Metadata } from "next";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
-import { getPolicies } from "@/sanity/fetch";
+import { defaultPoliciesPage } from "@/lib/defaultContent";
+import { buildPageMetadata } from "@/lib/metadata";
+import { getPolicies, getPoliciesPage } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Policies",
-  description:
-    "Cancellation policy, payment details, Good Faith Estimate rights, and privacy practices.",
-  alternates: { canonical: "/policies" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPoliciesPage();
+  return buildPageMetadata(page, {
+    title: defaultPoliciesPage.seoTitle!,
+    description: defaultPoliciesPage.seoDescription!,
+    canonical: "/policies",
+  });
+}
 
 export default async function PoliciesPage() {
-  const policies = await getPolicies();
+  const [page, policies] = await Promise.all([getPoliciesPage(), getPolicies()]);
 
   return (
     <div className="px-5 pb-24 pt-32 md:px-8 md:pt-40">
       <div className="mx-auto max-w-3xl">
         <AnimatedSection as="div">
           <AnimatedItem>
-            <p className="eyebrow text-sage">Legal</p>
+            <p className="eyebrow text-sage">{page.eyebrow}</p>
           </AnimatedItem>
           <AnimatedItem>
-            <h1 className="display-clamp mt-4 text-ink">Policies</h1>
+            <h1 className="display-clamp mt-4 text-ink">{page.heading}</h1>
           </AnimatedItem>
         </AnimatedSection>
         <div className="mt-14 space-y-8">
