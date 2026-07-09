@@ -1,15 +1,13 @@
 import Link from "next/link";
+import { BRAND, BrandMark, BrandWordmark } from "@/lib/brandAssets";
 
 /**
- * Placeholder logo matching the mockups: arch + pulse-line mark, display wordmark,
- * letterspaced subline. Swap the mark for the converted SVG of
- * Welch_Horizontal_Logo_Full_Color.eps before launch — this is the only file
- * to touch.
+ * Official logo lockup, vector-traced from Welch_Horizontal Logo Full Color.eps:
+ * blob-and-dots mark, Recline "WELCH" wordmark (outlined paths), letterspaced subline.
  */
 export function Logo({
   light = false,
   allWhite = false,
-  wordmark = "WELCH",
   tagline = "Physiotherapy & Wellness",
 }: {
   light?: boolean;
@@ -17,37 +15,18 @@ export function Logo({
   wordmark?: string;
   tagline?: string;
 }) {
-  const onDark = light || allWhite;
-  const main = onDark ? "text-bone" : "text-ink";
+  // Color variants follow the brand guide: leaf/sage mark + olive type on light
+  // backgrounds, cream mark + bone type on dark, all-bone for the overlay menu.
+  const blobColor = allWhite ? BRAND.bone : light ? BRAND.logoCream : BRAND.logoLeaf;
+  const dotColor = allWhite ? BRAND.bone : BRAND.logoSage;
+  const main = light || allWhite ? "text-bone" : "text-ink";
   const sub = allWhite ? "text-bone" : light ? "text-leaf" : "text-sage";
-  const icon = allWhite ? "text-bone" : light ? "text-leaf" : "text-olive";
   return (
     <Link href="/" className="flex items-center gap-2.5" aria-label="Welch Physiotherapy and Wellness — home">
-      <svg
-        viewBox="0 0 40 40"
-        className={`h-9 w-9 ${icon}`}
-        aria-hidden="true"
-      >
-        <path
-          d="M6 36 V22 a14 14 0 0 1 28 0 V36"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-        />
-        <path
-          d="M9 28 h6 l3 -6 4 10 3 -6 h6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <BrandMark size={30} blobColor={blobColor} dotColor={dotColor} />
       <span className="flex flex-col leading-none">
-        <span
-          className={`font-display text-xl font-semibold tracking-[0.08em] ${main}`}
-        >
-          {wordmark}
+        <span className={main}>
+          <BrandWordmark height={17} />
         </span>
         <span
           className={`mt-1 text-[8.5px] font-semibold uppercase tracking-[0.22em] ${sub}`}

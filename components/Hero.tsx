@@ -85,16 +85,18 @@ export function Hero({
             className="aspect-[4/5] w-full"
             sizes="(max-width: 1024px) 100vw, 38vw"
           />
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.5, ease: EASE }}
-            className="absolute -left-2 top-10 rounded-2xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur md:-left-8"
-          >
-            <p className="eyebrow text-[10px] text-olive">{hero.badgeTitle}</p>
-            <p className="mt-0.5 text-xs text-ink/70">{hero.badgeSub}</p>
-          </motion.div>
-          <MiniRoute labels={hero.routeLabels} />
+          {hero.badgeTitle && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.5, ease: EASE }}
+              className="absolute -left-2 top-10 rounded-2xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur md:-left-8"
+            >
+              <p className="eyebrow text-[10px] text-olive">{hero.badgeTitle}</p>
+              <p className="mt-0.5 text-xs text-ink/70">{hero.badgeSub}</p>
+            </motion.div>
+          )}
+          {hero.routeLabels.length > 0 && <MiniRoute labels={hero.routeLabels} />}
         </motion.div>
       </div>
     </section>

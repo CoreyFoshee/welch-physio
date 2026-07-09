@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { StickyMobileCta } from "@/components/StickyMobileCta";
+import { getSiteUrl } from "@/lib/site";
 import { getSiteSettings } from "@/sanity/fetch";
 
 export default async function SiteLayout({
@@ -12,11 +13,11 @@ export default async function SiteLayout({
   const businessJsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
-    name: `${settings.businessName} PLLC`,
+    name: `${settings.businessName} LLC`,
     description: settings.tagline,
-    telephone: "+19039182611",
+    telephone: `+1${settings.phone.replace(/\D/g, "")}`,
     email: settings.email,
-    url: "https://welchphysio.com",
+    url: getSiteUrl(),
     areaServed: { "@type": "City", name: "Tulsa", address: { "@type": "PostalAddress", addressRegion: "OK" } },
     medicalSpecialty: "PhysicalTherapy",
     founder: { "@type": "Person", name: "Dr. Kendall Welch", honorificSuffix: "DPT" },

@@ -87,7 +87,15 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             tagline={chrome.logoTagline}
           />
           <p className="text-xs text-cream/60">
-            © {year} {settings.businessName} PLLC · {chrome.copyrightLocation}
+            © {year} {settings.businessName} LLC · {chrome.copyrightLocation} · Designed by{" "}
+            <a
+              href="https://cfdesign.studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cream/75 underline-offset-2 transition-colors hover:text-bone hover:underline"
+            >
+              CF Design Studio
+            </a>
           </p>
         </div>
       </div>

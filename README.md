@@ -41,7 +41,7 @@ Editable content: site settings (nav, footer, form labels, phone, URLs), all pag
    - `NEXT_PUBLIC_SANITY_PROJECT_ID`
    - `NEXT_PUBLIC_SANITY_DATASET` (`production`)
    - `SANITY_API_READ_TOKEN`
-   - `MAILEROO_API_KEY` (contact-form email relay to kwelchphysio@gmail.com)
+   - `MAILEROO_API_KEY` (contact-form relay to info@welchphysio.com and corey@cfdesign.studio)
    - `MAILEROO_FROM_EMAIL` / `MAILEROO_FROM_NAME` (verified sender in Maileroo)
 3. Deploy. Netlify Forms auto-detects the `contact` form (defined in `public/__forms.html`); enable email/SMS notifications under **Forms → Notifications** to receive submissions by text.
 4. **Instant publishing:** in Netlify create a *Build hook*, then in Sanity manage → API → Webhooks add that URL so publishing in the Studio triggers a rebuild.
@@ -49,10 +49,10 @@ Editable content: site settings (nav, footer, form labels, phone, URLs), all pag
 
 ## Launch TODOs
 
-- [ ] Swap placeholder `<Logo />` for the converted SVG of `Welch_Horizontal_Logo_Full_Color.eps` (`components/Logo.tsx`)
-- [ ] Swap Fraunces → Recline via Adobe Fonts kit when client provides ID (`app/fonts.ts`)
-- [ ] Set real `bookingUrl` / `discoveryCallUrl` (scheduler) in Sanity site settings — currently falls back to `/faq#contact`
-- [ ] Set `patientPortalUrl` and `questionnaireUrl` in Sanity site settings
-- [ ] Verify a sender domain in Maileroo and set `MAILEROO_FROM_EMAIL` in env
-- [ ] Upload real photography in the Studio (hero, portrait, services, steps)
-- [ ] Replace placeholder testimonials; client to confirm credentials list
+- [x] Swap placeholder `<Logo />` for the real mark, vector-traced from the brand EPS (`lib/brandAssets.tsx`)
+- [ ] Swap Fraunces → Recline via Adobe Fonts kit when client provides ID (`app/fonts.ts`) — the logo wordmark itself is outlined Recline and doesn't depend on this
+- [x] Set real `bookingUrl` / `discoveryCallUrl` / `patientPortalUrl` (PT Everywhere) in site settings
+- [ ] `questionnaireUrl` — intake is sent directly via the PT Everywhere portal, so this stays unset
+- [x] Verify a sender domain in Maileroo and set `MAILEROO_FROM_EMAIL` in env
+- [ ] Upload photography in the Studio (stock for now; client sending a personal photo for About)
+- [x] Replace placeholder testimonials (Amy, Lenny, Katelyn) and update credentials list

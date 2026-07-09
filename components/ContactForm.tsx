@@ -13,7 +13,7 @@ export function ContactForm({
   variant = "full",
   button = "Send message",
   successMessage = "Got it — I'll be in touch shortly, usually the same day.",
-  errorMessage = "Something went wrong sending your message. Call or text (903) 918-2611 instead.",
+  errorMessage = "Something went wrong sending your message. Call or text (918) 340-2493 instead.",
   formCopy = defaultSiteSettings.chrome.contactForm,
 }: {
   /** "full" = olive card (FAQ page); "mini" = light card (home closing strip) */
@@ -40,7 +40,12 @@ export function ContactForm({
     const phone = (data.get("phone") as string)?.trim() ?? "";
     const email = (data.get("email") as string)?.trim() ?? "";
     const contact = (data.get("contact") as string)?.trim() ?? "";
+    const message = (data.get("message") as string)?.trim() ?? "";
     if (!name || !(phone || email || contact)) {
+      setStatus("error");
+      return;
+    }
+    if (variant === "mini" && !message) {
       setStatus("error");
       return;
     }
@@ -103,22 +108,34 @@ export function ContactForm({
           <input id="cf-phone" name="phone" type="tel" placeholder={formCopy.phonePlaceholder} autoComplete="tel" className={inputCls} />
           <label className="sr-only" htmlFor="cf-email">Email</label>
           <input id="cf-email" name="email" type="email" placeholder={formCopy.emailPlaceholder} autoComplete="email" className={inputCls} />
-          <label className="sr-only" htmlFor="cf-message">What&apos;s going on? (optional)</label>
+          <label className="sr-only" htmlFor="cf-message">Message (optional)</label>
           <textarea
             id="cf-message"
             name="message"
-            placeholder={formCopy.messagePlaceholder}
+            placeholder={`${formCopy.messagePlaceholder.replace(/\s*\(optional\)\s*/i, "")} (optional)`}
             rows={4}
             className={inputCls}
           />
         </>
       ) : (
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <label className="sr-only" htmlFor="cf-mini-name">Name</label>
-          <input id="cf-mini-name" name="name" placeholder={formCopy.namePlaceholder} required autoComplete="name" className={inputCls} />
-          <label className="sr-only" htmlFor="cf-mini-contact">Phone or email</label>
-          <input id="cf-mini-contact" name="contact" placeholder={formCopy.miniContactPlaceholder} required className={inputCls} />
-        </div>
+        <>
+          <input type="hidden" name="formVariant" value="mini" />
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <label className="sr-only" htmlFor="cf-mini-name">Name</label>
+            <input id="cf-mini-name" name="name" placeholder={formCopy.namePlaceholder} required autoComplete="name" className={inputCls} />
+            <label className="sr-only" htmlFor="cf-mini-contact">Phone or email</label>
+            <input id="cf-mini-contact" name="contact" placeholder={formCopy.miniContactPlaceholder} required className={inputCls} />
+          </div>
+          <label className="sr-only" htmlFor="cf-mini-message">Message</label>
+          <textarea
+            id="cf-mini-message"
+            name="message"
+            placeholder={formCopy.messagePlaceholder.replace(/\s*\(optional\)\s*/i, "")}
+            rows={4}
+            required
+            className={inputCls}
+          />
+        </>
       )}
 
       <button

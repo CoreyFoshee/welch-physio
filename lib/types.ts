@@ -59,6 +59,7 @@ export interface SiteSettings {
 export interface PageSeoFields {
   seoTitle?: string;
   seoDescription?: string;
+  ogImage?: SanityImageRef;
 }
 
 export interface ProblemCard {
@@ -202,7 +203,7 @@ export interface AboutPage extends PageSeoFields {
 }
 
 export interface Testimonial {
-  quoteTitle: string;
+  quoteTitle?: string;
   quote: string;
   attribution: string;
   rating: number;

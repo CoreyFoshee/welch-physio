@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { EmailAddress, MailerooClient } from "maileroo-sdk";
 
-const TO_EMAIL = "kwelchphysio@gmail.com";
+const TO_RECIPIENTS: EmailAddress[] = [
+  new EmailAddress("info@welchphysio.com", "Welch Physio"),
+  new EmailAddress("corey@cfdesign.studio", "Corey Foshee"),
+];
 
 export async function POST(request: Request) {
   let body: Record<string, string>;
@@ -27,6 +30,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (body.formVariant === "mini" && !message) {
+    return NextResponse.json(
+      { ok: false, error: "Message is required." },
+      { status: 400 },
+    );
+  }
+
   const apiKey = process.env.MAILEROO_API_KEY;
   if (!apiKey) {
     console.warn("MAILEROO_API_KEY not set — skipping email relay.");
@@ -34,7 +44,7 @@ export async function POST(request: Request) {
   }
 
   const fromEmail =
-    process.env.MAILEROO_FROM_EMAIL ?? "hello@welchphysio.com";
+    process.env.MAILEROO_FROM_EMAIL ?? "web@welchphysio.com";
   const fromName = process.env.MAILEROO_FROM_NAME ?? "Welch Physio Website";
 
   const text = [
@@ -51,7 +61,7 @@ export async function POST(request: Request) {
     const client = new MailerooClient(apiKey);
     await client.sendBasicEmail({
       from: new EmailAddress(fromEmail, fromName),
-      to: [new EmailAddress(TO_EMAIL, "Dr. Kendall Welch")],
+      to: TO_RECIPIENTS,
       reply_to: email ? new EmailAddress(email, name) : undefined,
       subject: `New website message from ${name}`,
       plain: text,

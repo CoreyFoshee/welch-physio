@@ -221,10 +221,10 @@ export default async function HomePage() {
           />
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {testimonials.map((t) => (
-              <AnimatedItem key={t.quoteTitle}>
+              <AnimatedItem key={t.attribution + t.quote.slice(0, 24)}>
                 <figure className="h-full rounded-3xl bg-white p-8 shadow-[0_2px_16px_rgba(44,52,36,0.06)] transition-all duration-300 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_12px_32px_rgba(44,52,36,0.1)]">
                   <Stars rating={t.rating} />
-                  <h3 className="mt-4 text-lg text-ink">{t.quoteTitle}</h3>
+                  {t.quoteTitle && <h3 className="mt-4 text-lg text-ink">{t.quoteTitle}</h3>}
                   <blockquote className="mt-3 text-sm leading-relaxed text-ink/75">
                     &ldquo;{t.quote}&rdquo;
                   </blockquote>

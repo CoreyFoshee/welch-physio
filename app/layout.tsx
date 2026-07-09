@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { rootMetadataExtras } from "@/lib/metadata";
+import { DEFAULT_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { fraunces, robotoCondensed } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://welchphysio.com"),
+  ...rootMetadataExtras(),
   title: {
-    default: "Concierge Physical Therapy in Tulsa, OK | Welch Physiotherapy and Wellness",
-    template: "%s | Welch Physiotherapy and Wellness",
+    default: `Concierge Physical Therapy in Tulsa, OK | ${SITE_NAME}`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "One-on-one, doctor-led physical therapy that comes to your home, gym, or workplace in Tulsa. Book a free discovery call — no referral needed.",
+  description: DEFAULT_DESCRIPTION,
 };
 
 export default function RootLayout({
