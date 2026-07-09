@@ -11,6 +11,7 @@ import { RouteMap } from "@/components/RouteMap";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { ProblemIcon, Stars, Check } from "@/components/icons";
+import { hasImage } from "@/lib/images";
 import {
   getHomePage,
   getServices,
@@ -74,16 +75,22 @@ export default async function HomePage() {
 
       {/* Guide */}
       <AnimatedSection className="bg-mint px-5 py-20 md:px-8 md:py-28">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.85fr_1.15fr]">
-          <AnimatedItem>
-            <ArchImage
-              image={home.guide.image}
-              alt={home.guide.imageAlt}
-              shape="full"
-              label={home.guide.imageCaption}
-              className="mx-auto aspect-[4/5] w-full max-w-sm"
-            />
-          </AnimatedItem>
+        <div
+          className={`mx-auto grid items-center gap-14 ${
+            hasImage(home.guide.image) ? "max-w-6xl lg:grid-cols-[0.85fr_1.15fr]" : "max-w-4xl"
+          }`}
+        >
+          {hasImage(home.guide.image) && (
+            <AnimatedItem>
+              <ArchImage
+                image={home.guide.image}
+                alt={home.guide.imageAlt}
+                shape="full"
+                label={home.guide.imageCaption}
+                className="mx-auto aspect-[4/5] w-full max-w-sm"
+              />
+            </AnimatedItem>
+          )}
           <div>
             <AnimatedItem>
               <p className="eyebrow text-olive">{home.guide.eyebrow}</p>
@@ -141,14 +148,16 @@ export default async function HomePage() {
                   href="/services"
                   className="group block h-full rounded-3xl bg-white p-5 shadow-[0_2px_16px_rgba(44,52,36,0.06)] transition-all duration-300 motion-safe:hover:-translate-y-1.5 motion-safe:hover:shadow-[0_12px_32px_rgba(44,52,36,0.1)]"
                 >
-                  <ArchImage
-                    image={svc.image}
-                    alt={svc.imageAlt}
-                    shape="top"
-                    className="aspect-[4/3] w-full"
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                  />
-                  <p className="eyebrow mt-5 text-sage">0{i + 1}</p>
+                  {hasImage(svc.image) && (
+                    <ArchImage
+                      image={svc.image}
+                      alt={svc.imageAlt}
+                      shape="top"
+                      className="aspect-[4/3] w-full"
+                      sizes="(max-width: 640px) 100vw, 25vw"
+                    />
+                  )}
+                  <p className={`eyebrow text-sage ${hasImage(svc.image) ? "mt-5" : "mt-1"}`}>0{i + 1}</p>
                   <h3 className="mt-2 text-lg leading-snug text-ink">{svc.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink/70">{svc.shortBlurb}</p>
                 </Link>

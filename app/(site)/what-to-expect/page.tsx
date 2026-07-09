@@ -4,6 +4,7 @@ import { CtaButton } from "@/components/Button";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { defaultExpectPage } from "@/lib/defaultContent";
+import { hasImage } from "@/lib/images";
 import { buildPageMetadata } from "@/lib/metadata";
 import { getExpectPage, getExpectSteps, getSiteSettings } from "@/sanity/fetch";
 
@@ -50,7 +51,11 @@ export default async function WhatToExpectPage() {
                 {i + 1}
               </span>
               <AnimatedItem>
-                <div className="grid items-center gap-8 rounded-3xl bg-white p-6 shadow-[0_2px_16px_rgba(44,52,36,0.06)] md:grid-cols-[1.3fr_0.7fr] md:p-9">
+                <div
+                  className={`grid items-center gap-8 rounded-3xl bg-white p-6 shadow-[0_2px_16px_rgba(44,52,36,0.06)] md:p-9 ${
+                    hasImage(step.image) ? "md:grid-cols-[1.3fr_0.7fr]" : ""
+                  }`}
+                >
                   <div>
                     <p className="eyebrow text-sage">{step.stepLabel}</p>
                     <h2 className="mt-2.5 text-2xl text-ink">{step.title}</h2>
@@ -59,13 +64,15 @@ export default async function WhatToExpectPage() {
                     </p>
                     <p className="mt-4 text-sm leading-relaxed text-ink/75">{step.body}</p>
                   </div>
-                  <ArchImage
-                    image={step.image}
-                    alt={step.imageAlt}
-                    shape="full"
-                    className="aspect-[4/3] w-full max-md:hidden"
-                    sizes="25vw"
-                  />
+                  {hasImage(step.image) && (
+                    <ArchImage
+                      image={step.image}
+                      alt={step.imageAlt}
+                      shape="full"
+                      className="aspect-[4/3] w-full max-md:hidden"
+                      sizes="25vw"
+                    />
+                  )}
                 </div>
               </AnimatedItem>
             </AnimatedSection>

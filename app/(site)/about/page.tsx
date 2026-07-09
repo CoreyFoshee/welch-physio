@@ -4,6 +4,7 @@ import { CtaButton } from "@/components/Button";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { Check } from "@/components/icons";
 import { defaultAboutPage } from "@/lib/defaultContent";
+import { hasImage } from "@/lib/images";
 import { buildPageMetadata } from "@/lib/metadata";
 import { getAboutPage, getSiteSettings } from "@/sanity/fetch";
 
@@ -27,18 +28,24 @@ export default async function AboutPage() {
     <>
       {/* Portrait + story */}
       <AnimatedSection className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
-        <div className="mx-auto grid max-w-6xl items-start gap-14 lg:grid-cols-[0.85fr_1.15fr]">
-          <AnimatedItem>
-            <ArchImage
-              image={page.image}
-              alt={page.imageAlt}
-              shape="full"
-              label={page.imageCaption}
-              priority
-              className="mx-auto aspect-[4/5] w-full max-w-md"
-              sizes="(max-width: 1024px) 100vw, 38vw"
-            />
-          </AnimatedItem>
+        <div
+          className={`mx-auto grid items-start gap-14 ${
+            hasImage(page.image) ? "max-w-6xl lg:grid-cols-[0.85fr_1.15fr]" : "max-w-3xl"
+          }`}
+        >
+          {hasImage(page.image) && (
+            <AnimatedItem>
+              <ArchImage
+                image={page.image}
+                alt={page.imageAlt}
+                shape="full"
+                label={page.imageCaption}
+                priority
+                className="mx-auto aspect-[4/5] w-full max-w-md"
+                sizes="(max-width: 1024px) 100vw, 38vw"
+              />
+            </AnimatedItem>
+          )}
           <div>
             <AnimatedItem>
               <p className="eyebrow text-sage">{page.eyebrow}</p>

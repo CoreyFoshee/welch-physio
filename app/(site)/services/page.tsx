@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { Check } from "@/components/icons";
 import { defaultServicesPage } from "@/lib/defaultContent";
+import { hasImage } from "@/lib/images";
 import { buildPageMetadata } from "@/lib/metadata";
 import { getServices, getServicesPage, getSiteSettings } from "@/sanity/fetch";
 
@@ -57,20 +58,22 @@ export default async function ServicesPage() {
               className="rounded-3xl bg-white p-6 shadow-[0_2px_16px_rgba(44,52,36,0.06)] md:p-10"
             >
               <div
-                className={`grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] ${
-                  i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                }`}
+                className={`grid items-center gap-10 ${
+                  hasImage(svc.image) ? "lg:grid-cols-[0.8fr_1.2fr]" : ""
+                } ${i % 2 === 1 && hasImage(svc.image) ? "lg:[&>*:first-child]:order-2" : ""}`}
               >
-                <AnimatedItem>
-                  <ArchImage
-                    image={svc.image}
-                    alt={svc.imageAlt}
-                    shape="full"
-                    label={svc.title}
-                    className="mx-auto aspect-[4/3] w-full max-w-md"
-                    sizes="(max-width: 1024px) 100vw, 35vw"
-                  />
-                </AnimatedItem>
+                {hasImage(svc.image) && (
+                  <AnimatedItem>
+                    <ArchImage
+                      image={svc.image}
+                      alt={svc.imageAlt}
+                      shape="full"
+                      label={svc.title}
+                      className="mx-auto aspect-[4/3] w-full max-w-md"
+                      sizes="(max-width: 1024px) 100vw, 35vw"
+                    />
+                  </AnimatedItem>
+                )}
                 <div>
                   <AnimatedItem>
                     <p className="eyebrow text-sage">{svc.audienceEyebrow}</p>
