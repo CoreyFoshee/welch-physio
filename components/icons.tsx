@@ -28,7 +28,8 @@ export function ProblemIcon({ name }: { name: string }) {
             <path d="M5.5 5.5l13 13" />
           </>
         )}
-        {!["clock", "sheet", "stop"].includes(name) && (
+        {name === "check" && <path d="M6 12.5l3 3 8-9" />}
+        {!["clock", "sheet", "stop", "check"].includes(name) && (
           <>
             <circle cx="12" cy="12" r="9" />
             <path d="M12 8v4M12 16h.01" />

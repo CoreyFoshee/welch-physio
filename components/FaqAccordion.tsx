@@ -44,9 +44,11 @@ export function FaqAccordion({ faqs }: { faqs: Faq[] }) {
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 pb-6 text-sm leading-relaxed text-ink/75">
-                    {faq.answer}
-                  </p>
+                  <div className="space-y-4 px-6 pb-6 text-sm leading-relaxed text-ink/75">
+                    {faq.answer.split("\n\n").map((paragraph) => (
+                      <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

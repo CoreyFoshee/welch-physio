@@ -113,17 +113,17 @@ export const defaultHomePage: HomePage = {
       {
         title: "For active adults and busy parents",
         body: "Overuse injuries? Recovering after pregnancy? Or simply lifting little ones all day? If you are struggling to find time to prioritize your own health — get expert care designed to fit your goals and keep you moving.",
-        icon: "clock",
+        icon: "check",
       },
       {
         title: "For athletes",
         body: "Helping high school, college, and recreational athletes recover from injury and perform at their best.",
-        icon: "sheet",
+        icon: "check",
       },
       {
         title: "For lifelong movers",
         body: "Whether it's pickleball, cycling, tennis, golf, or running, your treatment plan is built around your goals.",
-        icon: "stop",
+        icon: "check",
       },
     ],
     stakesLine:
@@ -225,7 +225,7 @@ export const defaultServices: Service[] = [
     featured: true,
   },
   {
-    title: "Pain relief & manual therapy",
+    title: "Pain relief and manual therapy",
     slug: "pain-relief",
     audienceEyebrow: "For stubborn pain that you can't get rid of",
     summary:
@@ -243,7 +243,7 @@ export const defaultServices: Service[] = [
     featured: true,
   },
   {
-    title: "Movement & performance",
+    title: "Movement and performance",
     slug: "movement-performance",
     audienceEyebrow: "Stay ahead of the pain or injury",
     summary:
@@ -252,7 +252,7 @@ export const defaultServices: Service[] = [
       "The critical next step after hands-on intervention — how do we keep you moving well.",
     outcomes: [
       "Personalized, updated, easy to access stretches and exercises",
-      "Targeted strength & mobility plan of care",
+      "Targeted strength and mobility plan of care",
       "Train with confidence, not caution",
     ],
     image: null,
@@ -263,14 +263,14 @@ export const defaultServices: Service[] = [
   {
     title: "Wellness memberships",
     slug: "wellness-memberships",
-    audienceEyebrow: "For graduates & proactive movers",
+    audienceEyebrow: "For graduates and proactive movers",
     summary:
       "Ongoing tune-ups, programming updates, and priority scheduling so good movement becomes your default.",
     shortBlurb:
       "Ongoing tune-ups and programming to keep you doing what you love, for good.",
     outcomes: [
       "Monthly hands-on tune-up visits",
-      "Evolving home & gym programming",
+      "Evolving home and gym programming",
       "Priority booking and member rates",
     ],
     image: null,
@@ -450,7 +450,7 @@ export const defaultFaqs: Faq[] = [
   {
     question: "Do I need a referral or prescription?",
     answer:
-      "No. Oklahoma has direct access, which means you can start physical therapy without a physician referral. If anything outside my scope shows up, I'll refer you to the right provider.",
+      "No. Oklahoma is a direct access state, which means you can schedule an evaluation and begin physical therapy without first obtaining a physician referral.\n\nUnder Oklahoma law, physical therapists may evaluate and treat patients directly. If treatment extends beyond 30 consecutive days, a referral is required from an appropriate licensed healthcare provider, such as a physician (MD or DO), nurse practitioner (NP), physician assistant (PA), dentist, podiatrist, or chiropractor, depending on your condition and their scope of practice.\n\nIf, during your evaluation or treatment, I identify signs or symptoms outside the scope of physical therapy or requiring additional medical evaluation, I'll refer you to the appropriate healthcare provider.",
     order: 1,
   },
   {

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { ArchImage } from "@/components/ArchImage";
-import { CtaButton } from "@/components/Button";
 import { AnimatedItem, AnimatedSection } from "@/components/AnimatedSection";
 import { Check } from "@/components/icons";
 import { defaultAboutPage } from "@/lib/defaultContent";
 import { hasImage } from "@/lib/images";
 import { buildPageMetadata } from "@/lib/metadata";
-import { getAboutPage, getSiteSettings } from "@/sanity/fetch";
+import { getAboutPage } from "@/sanity/fetch";
 
 export const revalidate = 60;
 
@@ -21,8 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [page, settings] = await Promise.all([getAboutPage(), getSiteSettings()]);
-  const cta = settings.discoveryCallUrl;
+  const page = await getAboutPage();
 
   return (
     <>
@@ -84,7 +82,7 @@ export default async function AboutPage() {
       </AnimatedSection>
 
       {/* Credentials */}
-      <AnimatedSection className="px-5 py-20 md:px-8 md:py-24">
+      <AnimatedSection className="px-5 pb-24 md:px-8 md:py-24">
         <div className="mx-auto max-w-6xl">
           <AnimatedItem>
             <p className="eyebrow text-sage">{page.credentials.eyebrow}</p>
@@ -103,19 +101,6 @@ export default async function AboutPage() {
             ))}
           </div>
         </div>
-      </AnimatedSection>
-
-      {/* Off the clock */}
-      <AnimatedSection className="px-5 pb-24 md:px-8">
-        <AnimatedItem>
-          <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 rounded-3xl bg-cream p-8 md:p-12 lg:flex-row lg:items-center">
-            <div className="max-w-2xl">
-              <h2 className="text-2xl text-ink md:text-3xl">{page.offClock.heading}</h2>
-              <p className="mt-4 leading-relaxed text-ink/75">{page.offClock.body}</p>
-            </div>
-            <CtaButton href={cta}>{page.offClock.cta}</CtaButton>
-          </div>
-        </AnimatedItem>
       </AnimatedSection>
     </>
   );
